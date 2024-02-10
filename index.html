@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embedded HLS Player</title>
+  <title>Embedded HLS Player with Watermark</title>
   <style>
     body {
       display: flex;
@@ -15,25 +15,38 @@
     }
 
     #video-container {
-      max-width: 800px;
-      text-align: center;
+      position: relative;
+      width: 80%; /* Adjust width as needed */
     }
 
-    video {
-      max-width: 100%;
-      height: auto;
+    #video {
+      width: 100%;
+      border-radius: 10px; /* Add border radius for a rounded look */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow for depth */
+    }
+
+    .watermark {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: white;
+      font-size: 14px;
+      background-color: rgba(0, 0, 0, 0.5); /* Add background color to make text readable */
+      padding: 5px 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
   <div id="video-container">
     <video id="video" controls autoplay></video>
+    <div class="watermark">Your Watermark Text</div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     var video = document.getElementById('video');
-    var videoSrc = 'https://cdn.pride-east.com/smartstream-us/newslivembr/newslivembr.smil/chunks.m3u8?nimblesessionid=5166203';
+    var videoSrc = 'https://nktv.smartstream.video/smartstream-us/spondon/spondon/chunks.m3u8?nimblesessionid=5239701';
 
     if (Hls.isSupported()) {
       var hls = new Hls();
