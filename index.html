@@ -1,37 +1,47 @@
-<?php
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the URL entered by the user
-    $url = $_POST["url"];
-    // Initialize cURL session
-    $curl = curl_init();
-    // Set the cURL options
-    curl_setopt($curl, CURLOPT_URL, $url); // Set the URL to visit
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
-    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
-    // Execute the cURL request
-    $response = curl_exec($curl);
-    // Check for errors
-    if(curl_errno($curl)){
-        echo 'Curl error: ' . curl_error($curl);
-    }
-    // Close cURL session
-    curl_close($curl);
-    // Output the response
-    echo $response;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Visit Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Form</title>
 </head>
 <body>
-    <h2>Enter Website URL</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>
-        <input type="text" name="url" placeholder="Enter website URL">
-        <button type="submit">Visit Website</button>
-    </form>
+    <form id="excelForm" action="export.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // JavaScript to export form data to CSV
+        document.getElementById('excelForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            let jsonData = {};
+
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Convert JSON to CSV format
+            let csvContent = "data:text/csv;charset=utf-8,"
+                + Object.keys(jsonData).map(key => '"' + key + '"').join(',') + '\n'
+                + Object.values(jsonData).map(val => '"' + val + '"').join(',');
+
+            // Create a link to download the CSV file
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "formData.csv");
+            document.body.appendChild(link);
+
+            // Trigger the download
+            link.click();
+        });
+    </script>
 </body>
 </html>
