@@ -1,25 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embedded HLS Player</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embedded HLS Player</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #video-container {
+      max-width: 800px;
+      text-align: center;
+    }
+
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
-  <video id="video" controls autoplay></video>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script>
-    var video = document.getElementById('video');
-    var videoSrc = 'https://nktv.smartstream.video/smartstream-us/spondon/spondon/chunks.m3u8?nimblesessionid=5239701';
-    if (Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-    } else {
-      console.error('HLS is not supported');
-    }
-  </script>
+  <div id="video-container">
+    <video id="video" controls autoplay></video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    var video = document.getElementById('video');
+    var videoSrc = 'https://cdn.pride-east.com/smartstream-us/newslivembr/newslivembr.smil/chunks.m3u8?nimblesessionid=5166203';
+
+    if (Hls.isSupported()) {
+      var hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSrc;
+    } else {
+      console.error('HLS is not supported');
+    }
+  </script>
 </body>
 </html>
