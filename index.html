@@ -3,15 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embedded HLS Player with Watermark</title>
+  <title>Embedded HLS Player with Screen Recording</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #video-container {
+      position: relative;
+      width: 80%; /* Adjust width as needed */
+    }
+
+    #video {
+      width: 100%;
+      border-radius: 10px; /* Add border radius for a rounded look */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow for depth */
+    }
+
+    .watermark {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: white;
+      font-size: 14px;
+      background-color: rgba(0, 0, 0, 0.5); /* Add background color to make text readable */
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #startRecording,
+    #stopRecording {
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <video id="video" controls></video>
+  <div id="video-container">
+    <video id="video" controls></video>
+    <div class="watermark">KARUNA</div>
+    <button class="play-button" id="playButton">Play</button>
+  </div>
+  
+  <button id="startRecording">Start Recording</button>
+  <button id="stopRecording" disabled>Stop Recording</button>
+  <video id="recordedVideo" controls></video>
+
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     var video = document.getElementById('video');
     var videoSrc = 'https://nktv.smartstream.video/smartstream-us/spondon/spondon/chunks.m3u8?nimblesessionid=5239701';
+    var playButton = document.getElementById('playButton');
+    var startRecordingButton = document.getElementById('startRecording');
+    var stopRecordingButton = document.getElementById('stopRecording');
+    var recordedVideo = document.getElementById('recordedVideo');
 
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    // Check if HLS is supported
     if (Hls.isSupported()) {
       var hls = new Hls();
       hls.loadSource(videoSrc);
@@ -21,6 +89,43 @@
     } else {
       console.error('HLS is not supported');
     }
+
+    // Play video when the play button is clicked
+    playButton.addEventListener('click', function() {
+      video.play();
+      playButton.style.display = 'none'; // Hide the play button after clicking
+    });
+
+    startRecordingButton.addEventListener('click', async () => {
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = () => {
+          const recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+          recordedVideo.src = URL.createObjectURL(recordedBlob);
+          recordedVideo.controls = true;
+        };
+
+        mediaRecorder.start();
+        startRecordingButton.disabled = true;
+        stopRecordingButton.disabled = false;
+      } catch (error) {
+        console.error('Error accessing screen:', error);
+      }
+    });
+
+    stopRecordingButton.addEventListener('click', () => {
+      mediaRecorder.stop();
+      startRecordingButton.disabled = false;
+      stopRecordingButton.disabled = true;
+    });
   </script>
 </body>
 </html>
