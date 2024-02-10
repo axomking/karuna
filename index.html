@@ -1,131 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embedded HLS Player with Screen Recording</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f0f0f0;
-    }
-
-    #video-container {
-      position: relative;
-      width: 80%; /* Adjust width as needed */
-    }
-
-    #video {
-      width: 100%;
-      border-radius: 10px; /* Add border radius for a rounded look */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow for depth */
-    }
-
-    .watermark {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      color: white;
-      font-size: 14px;
-      background-color: rgba(0, 0, 0, 0.5); /* Add background color to make text readable */
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
-
-    .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      padding: 15px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    #startRecording,
-    #stopRecording {
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Proxy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: center;
+        }
+        .url-input {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .go-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .go-button:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-  <div id="video-container">
-    <video id="video" controls></video>
-    <div class="watermark">KARUNA</div>
-    <button class="play-button" id="playButton">Play</button>
-  </div>
-  
-  <button id="startRecording">Start Recording</button>
-  <button id="stopRecording" disabled>Stop Recording</button>
-  <video id="recordedVideo" controls></video>
-
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script>
-    var video = document.getElementById('video');
-    var videoSrc = 'https://nktv.smartstream.video/smartstream-us/spondon/spondon/chunks.m3u8?nimblesessionid=5239701';
-    var playButton = document.getElementById('playButton');
-    var startRecordingButton = document.getElementById('startRecording');
-    var stopRecordingButton = document.getElementById('stopRecording');
-    var recordedVideo = document.getElementById('recordedVideo');
-
-    let mediaRecorder;
-    let recordedChunks = [];
-
-    // Check if HLS is supported
-    if (Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-    } else {
-      console.error('HLS is not supported');
-    }
-
-    // Play video when the play button is clicked
-    playButton.addEventListener('click', function() {
-      video.play();
-      playButton.style.display = 'none'; // Hide the play button after clicking
-    });
-
-    startRecordingButton.addEventListener('click', async () => {
-      try {
-        const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        mediaRecorder = new MediaRecorder(stream);
-
-        mediaRecorder.ondataavailable = (event) => {
-          if (event.data.size > 0) {
-            recordedChunks.push(event.data);
-          }
-        };
-
-        mediaRecorder.onstop = () => {
-          const recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
-          recordedVideo.src = URL.createObjectURL(recordedBlob);
-          recordedVideo.controls = true;
-        };
-
-        mediaRecorder.start();
-        startRecordingButton.disabled = true;
-        stopRecordingButton.disabled = false;
-      } catch (error) {
-        console.error('Error accessing screen:', error);
-      }
-    });
-
-    stopRecordingButton.addEventListener('click', () => {
-      mediaRecorder.stop();
-      startRecordingButton.disabled = false;
-      stopRecordingButton.disabled = true;
-    });
-  </script>
+    <div class="container">
+        <h1>Web Proxy</h1>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+            <input type="text" name="url" placeholder="Enter URL" class="url-input">
+            <button type="submit" class="go-button">Go</button>
+        </form>
+        <?php
+        // Check if the URL parameter is set
+        if(isset($_GET['url'])) {
+            // Get the URL to proxy
+            $url = $_GET['url'];
+            // Create a cURL handle
+            $ch = curl_init();
+            // Set cURL options
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            // Execute cURL, get the content
+            $response = curl_exec($ch);
+            // Check for errors
+            if(curl_errno($ch)){
+                // If there is an error, output it
+                echo '<p class="error">Curl error: ' . curl_error($ch) . '</p>';
+            }
+            // Close cURL handle
+            curl_close($ch);
+            // Output the content
+            echo '<div class="content">' . $response . '</div>';
+        }
+        ?>
+    </div>
 </body>
 </html>
