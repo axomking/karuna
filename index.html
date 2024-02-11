@@ -1,23 +1,50 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+    // Create CSV string
+    $csvData = "Name,Email,Phone Number,Address\n";
+    $csvData .= '"' . $name . '","' . $email . '","' . $phone . '","' . $address . '"';
+
+    // Set headers for CSV download
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename=formData.csv");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    // Output CSV data
+    echo $csvData;
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excel Form</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <form id="excelForm" action="export.php" method="POST">
+    <form id="excelForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
         
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br><br>
         
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required><br><br>
-        
-        <label for="address">Address:</label>
-        <textarea id="address" name="address" required></textarea><br><br>
+        <div class="hidden">
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea><br><br>
+        </div>
         
         <button type="submit">Submit</button>
     </form>
