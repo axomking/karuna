@@ -3,38 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Export Form Data to CSV and XLSX</title>
+<title>Export Form Data to XLSX</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script> <!-- Include the XLSX library -->
+<style>
+    .hidden-label {
+        display: none;
+    }
+</style>
 <script>
-function exportToCSV() {
-    var formData = new FormData(document.getElementById("data-form"));
-    var csvContent = "data:text/csv;charset=utf-8,";
-
-    // Add headers
-    var headers = [];
-    formData.forEach(function(value, key) {
-        headers.push(key);
-    });
-    csvContent += headers.join(",") + "\n";
-
-    // Add data
-    var data = [];
-    formData.forEach(function(value) {
-        data.push('"' + value + '"');
-    });
-    csvContent += data.join(",") + "\n";
-
-    var link = document.createElement("a");
-    link.setAttribute("href", encodeURI(csvContent));
-    link.setAttribute("download", "data.csv");
-    document.body.appendChild(link);
-    link.click();
-}
-
 function exportToXLSX() {
     var formData = new FormData(document.getElementById("data-form"));
     var workbook = XLSX.utils.book_new();
-    var worksheet = XLSX.utils.json_to_sheet(Object.fromEntries(formData));
+    var worksheet = XLSX.utils.json_to_sheet([Object.fromEntries(formData)]); // Wrap form data in an array
 
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
@@ -58,7 +38,7 @@ function exportToXLSX() {
     <input type="hidden" id="album_category" name="album_category">
 
     <label for="language" class="hidden-label">Language:</label>
-    <input type="hidden" id="language" name="language">
+    <input type="hidden" id="language" name="language" value="English">
 
     <label for="genre_category" class="hidden-label">Genre/Category:</label>
     <input type="hidden" id="genre_category" name="genre_category">
@@ -149,8 +129,6 @@ function exportToXLSX() {
     
     <label for="time">Callertune Time:</label>
     <input type="time" id="time" name="time">
-</form>
-
 
     <button type="button" onclick="exportToXLSX()">Export to XLSX</button>
 </form>
