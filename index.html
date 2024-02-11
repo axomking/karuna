@@ -1,18 +1,32 @@
-<?php
-if(isset($_POST['submit'])) {
-    $oldFileName = $_POST['oldFileName'];
-    $newFileName = $_POST['newFileName'];
-    
-    if(rename($oldFileName, $newFileName)) {
-        echo "File renamed successfully.";
-    } else {
-        echo "Error renaming file.";
-    }
-}
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Form</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <form id="excelForm" action="export.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <div class="hidden-label">
+            <label for="address" style="visibility: hidden;">Address:</label>
+            <input type="text" id="address" name="address" required><br><br>
+        </div>
+        
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
 
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    Old File URL: <input type="text" name="oldFileName"><br>
-    New File Name: <input type="text" name="newFileName"><br>
-    <input type="submit" name="submit" value="Rename">
-</form>
+    <script>
+        // JavaScript to export form data to CSV...
+    </script>
+</body>
+</html>
