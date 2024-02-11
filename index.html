@@ -3,15 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Export Form Data to Excel</title>
+<title>Export Form Data to CSV</title>
 <script>
-function exportToExcel() {
+function exportToCSV() {
     var table = document.getElementById("data-table");
-    var html = table.outerHTML;
-    var url = 'data:application/vnd.ms-excel;base64,' + btoa(html);
+    var rows = table.querySelectorAll("tr");
+    var csvContent = "data:text/csv;charset=utf-8,";
+    
+    rows.forEach(function(row) {
+        var rowData = [];
+        row.querySelectorAll("th, td").forEach(function(cell) {
+            rowData.push(cell.innerText);
+        });
+        csvContent += rowData.join(",") + "\n";
+    });
+    
+    var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
-    link.download = "data.xls";
-    link.href = url;
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "data.csv");
+    document.body.appendChild(link);
     link.click();
 }
 </script>
@@ -24,7 +35,7 @@ function exportToExcel() {
     <input type="email" id="email" name="email"><br><br>
     <label for="age">Age:</label>
     <input type="number" id="age" name="age"><br><br>
-    <button type="button" onclick="exportToExcel()">Export to Excel</button>
+    <button type="button" onclick="exportToCSV()">Export to CSV</button>
 </form>
 <table id="data-table">
     <tr>
