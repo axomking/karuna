@@ -6,21 +6,16 @@
 <title>Export Form Data to CSV</title>
 <script>
 function exportToCSV() {
-    var table = document.getElementById("data-table");
-    var rows = table.querySelectorAll("tr");
+    var formData = new FormData(document.getElementById("data-form"));
     var csvContent = "data:text/csv;charset=utf-8,";
-    
-    rows.forEach(function(row) {
-        var rowData = [];
-        row.querySelectorAll("th, td").forEach(function(cell) {
-            rowData.push(cell.innerText);
-        });
-        csvContent += rowData.join(",") + "\n";
+
+    formData.forEach(function(value, key) {
+        csvContent += '"' + value + '",';
     });
-    
-    var encodedUri = encodeURI(csvContent);
+    csvContent += "\n";
+
     var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    link.setAttribute("href", encodeURI(csvContent));
     link.setAttribute("download", "data.csv");
     document.body.appendChild(link);
     link.click();
@@ -37,12 +32,5 @@ function exportToCSV() {
     <input type="number" id="age" name="age"><br><br>
     <button type="button" onclick="exportToCSV()">Export to CSV</button>
 </form>
-<table id="data-table">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Age</th>
-    </tr>
-</table>
 </body>
 </html>
