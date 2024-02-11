@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Export Form Data to CSV</title>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
 <script>
 function exportToCSV() {
     var formData = new FormData(document.getElementById("data-form"));
@@ -37,8 +42,8 @@ function exportToCSV() {
     <input type="text" id="name" name="name"><br><br>
     <label for="email">Email:</label>
     <input type="email" id="email" name="email"><br><br>
-    <label for="age">Age:</label>
-    <input type="number" id="age" name="age"><br><br>
+    <label for="age" class="hidden">Age:</label>
+    <input type="number" id="age" name="age" class="hidden"><br><br>
     <button type="button" onclick="exportToCSV()">Export to CSV</button>
 </form>
 </body>
