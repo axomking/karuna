@@ -14,10 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Set CSV file name
     $fileName = "formData.csv";
 
-    // Output CSV file as attachment
-    header("Content-type: text/csv");
+    // Write CSV content to file
+    file_put_contents($fileName, $csvContent);
+
+    // Provide download link
     header("Content-Disposition: attachment; filename=$fileName");
-    echo $csvContent;
+    readfile($fileName);
     exit();
 } else {
     // Redirect if form data is not submitted
