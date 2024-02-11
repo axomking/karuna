@@ -35,7 +35,7 @@ function exportToXLSX() {
     <input type="text" id="film_album" name="film_album"><br><br>
 
     <label for="album_category" class="hidden-label">Album Category:</label>
-    <input type="hidden" id="album_category" name="album_category">
+    <input type="hidden" id="album_category" name="album_category" value="Original">
 
     <label for="language" class="hidden-label">Language:</label>
     <input type="hidden" id="language" name="language" value="Assamese">
@@ -56,7 +56,7 @@ function exportToXLSX() {
     <input type="hidden" id="physical_artwork_name" name="physical_artwork_name">
 
     <label for="track_duration">Track Duration:</label>
-    <input type="text" id="track_duration" name="track_duration"><br><br>
+    <input type="text" id="track_duration" name="track_duration" value="00:00:00"><br><br>
 
     <label for="track_no" class="hidden-label">Track No.:</label>
     <input type="hidden" id="track_no" name="track_no">
@@ -128,7 +128,7 @@ function exportToXLSX() {
     <input type="hidden" id="mood" name="mood" value="Happy">
     
     <label for="time">Callertune Time:</label>
-    <input type="time" id="time" name="time"><br><br>
+    <input type="text" id="time" name="time" value="00:00:00"><br><br>
 
     <button type="button" onclick="exportToXLSX()">Export to XLSX</button>
 </form>
