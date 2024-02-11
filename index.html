@@ -33,107 +33,85 @@ function exportToCSV() {
 </head>
 <body>
 <form id="data-form">
+    <!-- Hidden fields -->
+    <label for="album_category" style="display:none;">Album Category:</label>
+    <input type="text" id="album_category" name="album_category" style="display:none;"><br><br>
+    
+    <label for="genre_category" style="display:none;">Genre/Category:</label>
+    <input type="text" id="genre_category" name="genre_category" style="display:none;"><br><br>
+    
+    <label for="sub_category" style="display:none;">Sub Category:</label>
+    <input type="text" id="sub_category" name="sub_category" style="display:none;"><br><br>
+    
+    <label for="description" style="display:none;">Description:</label>
+    <input type="text" id="description" name="description" style="display:none;"><br><br>
+    
+    <label for="physical_file_name" style="display:none;">Physical File Name:</label>
+    <input type="text" id="physical_file_name" name="physical_file_name" style="display:none;"><br><br>
+    
+    <label for="physical_artwork_name" style="display:none;">Physical Artwork Name:</label>
+    <input type="text" id="physical_artwork_name" name="physical_artwork_name" style="display:none;"><br><br>
+    
+    <label for="track_no" style="display:none;">Track No.:</label>
+    <input type="text" id="track_no" name="track_no" style="display:none;"><br><br>
+    
+    <label for="upc_id" style="display:none;">UPC ID:</label>
+    <input type="text" id="upc_id" name="upc_id" style="display:none;"><br><br>
+    
+    <label for="date_movie_release" style="display:none;">Date of Movie Release:</label>
+    <input type="text" id="date_movie_release" name="date_movie_release" style="display:none;"><br><br>
+    
+    <label for="date_music_release" style="display:none;">Date of Music Release:</label>
+    <input type="text" id="date_music_release" name="date_music_release" style="display:none;"><br><br>
+    
+    <label for="date_expiry" style="display:none;">Date of Expiry:</label>
+    <input type="text" id="date_expiry" name="date_expiry" style="display:none;"><br><br>
+    
+    <label for="film_banner" style="display:none;">Film Banner:</label>
+    <input type="text" id="film_banner" name="film_banner" style="display:none;"><br><br>
+    
+    <label for="director" style="display:none;">Director:</label>
+    <input type="text" id="director" name="director" style="display:none;"><br><br>
+    
+    <label for="producer" style="display:none;">Producer:</label>
+    <input type="text" id="producer" name="producer" style="display:none;"><br><br>
+    
+    <label for="star_cast" style="display:none;">Star Cast:</label>
+    <input type="text" id="star_cast" name="star_cast" style="display:none;"><br><br>
+    
+    <label for="label" style="display:none;">Label:</label>
+    <input type="text" id="label" name="label" style="display:none;"><br><br>
+    
+    <label for="publisher" style="display:none;">Publisher:</label>
+    <input type="text" id="publisher" name="publisher" style="display:none;"><br><br>
+    
+    <label for="iprs_ownership" style="display:none;">IPRS Ownership (Yes/No):</label>
+    <input type="text" id="iprs_ownership" name="iprs_ownership" style="display:none;"><br><br>
+    
+    <label for="iprs_member_lyricist" style="display:none;">IPRS Member (Yes/No) - Lyricist:</label>
+    <input type="text" id="iprs_member_lyricist" name="iprs_member_lyricist" style="display:none;"><br><br>
+    
+    <label for="iswc" style="display:none;">ISWC:</label>
+    <input type="text" id="iswc" name="iswc" style="display:none;"><br><br>
+    
+    <label for="iprs_member_composer" style="display:none;">IPRS Member (Yes/No) - Composer:</label>
+    <input type="text" id="iprs_member_composer" name="iprs_member_composer" style="display:none;"><br><br>
+    
+    <label for="sound_recording_rights" style="display:none;">Sound Recording Rights:</label>
+    <input type="text" id="sound_recording_rights" name="sound_recording_rights" style="display:none;"><br><br>
+    
+    <label for="musical_literary_works" style="display:none;">Musical & Literary Works:</label>
+    <input type="text" id="musical_literary_works" name="musical_literary_works" style="display:none;"><br><br>
+    
+    <label for="pay_to_rights" style="display:none;">Pay To Rights:</label>
+    <input type="text" id="pay_to_rights" name="pay_to_rights" style="display:none;"><br><br>
+    
+    <label for="mood" style="display:none;">Mood:</label>
+    <input type="text" id="mood" name="mood" style="display:none;"><br><br>
+    
+    <!-- Visible fields -->
     <label for="crbt_cuts">CRBT Cuts:</label>
     <input type="text" id="crbt_cuts" name="crbt_cuts"><br><br>
     
     <label for="song">Song:</label>
-    <input type="text" id="song" name="song"><br><br>
-    
-    <label for="film_album">Film/Album:</label>
-    <input type="text" id="film_album" name="film_album"><br><br>
-    
-    <label for="album_category">Album Category:</label>
-    <input type="text" id="album_category" name="album_category"><br><br>
-    
-    <label for="language">Language:</label>
-    <input type="text" id="language" name="language"><br><br>
-    
-    <label for="genre_category">Genre/Category:</label>
-    <input type="text" id="genre_category" name="genre_category"><br><br>
-    
-    <label for="sub_category">Sub Category:</label>
-    <input type="text" id="sub_category" name="sub_category"><br><br>
-    
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description"><br><br>
-    
-    <label for="physical_file_name">Physical File Name:</label>
-    <input type="text" id="physical_file_name" name="physical_file_name"><br><br>
-    
-    <label for="physical_artwork_name">Physical Artwork Name:</label>
-    <input type="text" id="physical_artwork_name" name="physical_artwork_name"><br><br>
-    
-    <label for="track_duration">Track Duration:</label>
-    <input type="text" id="track_duration" name="track_duration"><br><br>
-    
-    <label for="track_no">Track No.:</label>
-    <input type="text" id="track_no" name="track_no"><br><br>
-    
-    <label for="upc_id">UPC ID:</label>
-    <input type="text" id="upc_id" name="upc_id"><br><br>
-    
-    <label for="date_movie_release">Date of Movie Release:</label>
-    <input type="text" id="date_movie_release" name="date_movie_release"><br><br>
-    
-    <label for="date_music_release">Date of Music Release:</label>
-    <input type="text" id="date_music_release" name="date_music_release"><br><br>
-    
-    <label for="date_expiry">Date of Expiry:</label>
-    <input type="text" id="date_expiry" name="date_expiry"><br><br>
-    
-    <label for="film_banner">Film Banner:</label>
-    <input type="text" id="film_banner" name="film_banner"><br><br>
-    
-    <label for="director">Director:</label>
-    <input type="text" id="director" name="director"><br><br>
-    
-    <label for="producer">Producer:</label>
-    <input type="text" id="producer" name="producer"><br><br>
-    
-    <label for="star_cast">Star Cast:</label>
-    <input type="text" id="star_cast" name="star_cast"><br><br>
-    
-    <label for="isrc">ISRC:</label>
-    <input type="text" id="isrc" name="isrc"><br><br>
-    
-    <label for="label">Label:</label>
-    <input type="text" id="label" name="label"><br><br>
-    
-    <label for="publisher">Publisher:</label>
-    <input type="text" id="publisher" name="publisher"><br><br>
-    
-    <label for="iprs_ownership">IPRS Ownership (Yes/No):</label>
-    <input type="text" id="iprs_ownership" name="iprs_ownership"><br><br>
-    
-    <label for="lyricist">Lyricist:</label>
-    <input type="text" id="lyricist" name="lyricist"><br><br>
-    
-    <label for="iprs_member_lyricist">IPRS Member (Yes/No) - Lyricist:</label>
-    <input type="text" id="iprs_member_lyricist" name="iprs_member_lyricist"><br><br>
-    
-    <label for="iswc">ISWC:</label>
-    <input type="text" id="iswc" name="iswc"><br><br>
-    
-    <label for="composer">Composer:</label>
-    <input type="text" id="composer" name="composer"><br><br>
-    
-    <label for="iprs_member_composer">IPRS Member (Yes/No) - Composer:</label>
-    <input type="text" id="iprs_member_composer" name="iprs_member_composer"><br><br>
-    
-    <label for="artist1">Artist1/Singer:</label>
-    <input type="text" id="artist1" name="artist1"><br><br>
-    
-    <label for="sound_recording_rights">Sound Recording Rights:</label>
-    <input type="text" id="sound_recording_rights" name="sound_recording_rights"><br><br>
-    
-    <label for="musical_literary_works">Musical & Literary Works:</label>
-    <input type="text" id="musical_literary_works" name="musical_literary_works"><br><br>
-    
-    <label for="pay_to_rights">Pay To Rights:</label>
-    <input type="text" id="pay_to_rights" name="pay_to_rights"><br><br>
-    
-    <label for="mood">Mood:</label>
-    <input type="text" id="mood" name="mood"><br><br>
-    
-    <label for="time">Time:</label>
-    <input type
+    <input type="text" id="song" name="song"><br><br
