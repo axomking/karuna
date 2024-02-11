@@ -1,29 +1,21 @@
 <?php
-// Check if form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $address = $_POST["address"];
+    // Get form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
 
-    // Create CSV content
-    $csvContent = "Name,Email,Phone,Address\n";
-    $csvContent .= '"' . $name . '","' . $email . '","' . $phone . '","' . $address . '"' . "\n";
+    // Create CSV string
+    $csvData = "Name,Email\n";
+    $csvData .= '"' . $name . '","' . $email . '"';
 
-    // Set CSV file name
-    $fileName = "formData.csv";
+    // Set headers for CSV download
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename=formData.csv");
+    header("Pragma: no-cache");
+    header("Expires: 0");
 
-    // Write CSV content to file
-    file_put_contents($fileName, $csvContent);
-
-    // Provide download link
-    header("Content-Disposition: attachment; filename=$fileName");
-    readfile($fileName);
-    exit();
-} else {
-    // Redirect if form data is not submitted
-    header("Location: index.html");
-    exit();
+    // Output CSV data
+    echo $csvData;
+    exit;
 }
 ?>
