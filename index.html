@@ -1,58 +1,48 @@
+<?php
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Define the file name for the CSV
+    $file_name = "form_data.csv";
+
+    // Open the file in write mode (create it if it doesn't exist)
+    $file = fopen($file_name, "w");
+
+    // Write the headers to the CSV file
+    fputcsv($file, array('Name', 'Email', 'Message'));
+
+    // Extract form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+    // Write form data to CSV
+    fputcsv($file, array($name, $email, $message));
+
+    // Close the file
+    fclose($file);
+
+    // Provide download link to the generated CSV
+    echo "<a href='$file_name' download>Download CSV</a>";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Form</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Export Form Data to CSV</title>
 </head>
 <body>
-    <form id="excelForm" action="export.php" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required><br><br>
-        
-        <label for="address" class="hidden">Address:</label>
-        <input type="text" id="address" name="address" class="hidden" required><br><br>
-        
-        <button type="submit">Submit</button>
+    <h2>Export Form Data to CSV</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message"></textarea><br><br>
+        <input type="submit" value="Submit">
     </form>
-
-    <script>
-        // JavaScript to export form data to CSV
-        document.getElementById('excelForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-            let jsonData = {};
-
-            formData.forEach((value, key) => {
-                jsonData[key] = value;
-            });
-
-            // Convert JSON to CSV format
-            let csvContent = "data:text/csv;charset=utf-8,"
-                + Object.keys(jsonData).map(key => '"' + key + '"').join(',') + '\n'
-                + Object.values(jsonData).map(val => '"' + val + '"').join(',');
-
-            // Create a link to download the CSV file
-            let encodedUri = encodeURI(csvContent);
-            let link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "formData.csv");
-            document.body.appendChild(link);
-
-            // Trigger the download
-            link.click();
-        });
-    </script>
 </body>
 </html>
