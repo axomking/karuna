@@ -1,21 +1,25 @@
 <?php
-// Retrieve form data
-$name = $_POST['name'] ?? '';
-$email = $_POST['email'] ?? '';
-$crbtCut = $_POST['crbtCut'] ?? '';
-$song = $_POST['song'] ?? '';
-$album = $_POST['album'] ?? '';
-$language = $_POST['language'] ?? '';
-$genre = $_POST['genre'] ?? '';
-$trackDuration = $_POST['trackDuration'] ?? '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $address = $_POST["address"];
 
-// Create CSV content
-$csvData = "Name,Email,Crbt Cut,Song,Album,Language,Genre,Track Duration\n";
-$csvData .= "\"$name\",\"$email\",\"$crbtCut\",\"$song\",\"$album\",\"$language\",\"$genre\",\"$trackDuration\"\n";
+    // Prepare data for CSV
+    $data = array($name, $email, $phone, $address);
 
-// Set headers for CSV download
-header('Content-Type: text/csv');
-header('Content-Disposition: attachment; filename="formData.csv"');
+    // Open or create CSV file
+    $file = fopen("formData.csv", "a");
 
-// Output CSV data
-echo $csvData;
+    // Write data to CSV file
+    fputcsv($file, $data);
+
+    // Close CSV file
+    fclose($file);
+
+    // Optional: Redirect user back to the form or to a thank you page
+    header("Location: index.html");
+    exit();
+}
+?>
